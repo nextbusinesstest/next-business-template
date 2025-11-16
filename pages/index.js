@@ -1,154 +1,101 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Next Business — IA y automatización para pymes</title>
-        <meta name="description" content="Next Business ayuda a pequeñas y medianas empresas a digitalizarse y aumentar ventas mediante soluciones automatizadas con IA. Implantación y mantenimiento." />
-        <meta property="og:title" content="Next Business" />
-        <meta property="og:description" content="IA-powered marketing & e-commerce para pymes en Sakana y comarca." />
-        <meta property="og:image" content="/og_image.png" />
+        <title>Next Business — Agencia de Marketing y Automatización</title>
+        <meta name="description" content="Agencia especializada en marketing digital, automatización e IA para pequeñas y medianas empresas." />
+        <meta property="og:title" content="Next Business — Impulsa tu empresa con IA" />
+        <meta property="og:description" content="Marketing digital, automatización y páginas web rápidas para empresas locales." />
+        <meta property="og:image" content="/og-image.png" />
       </Head>
 
-      <div className="min-h-screen bg-white text-gray-800 antialiased">
-        <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img src="/logo.png" alt="Next Business logo" className="w-16 h-16 object-contain" />
-            <div>
-              <div className="text-lg font-semibold" style={{color:'var(--nb-primary)'}}>Next Business</div>
-              <div className="text-xs text-gray-500">IA & automatización para pymes</div>
-            </div>
+      {/* HERO */}
+      <section className="bg-white py-24 border-b">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            Digitalización real para empresas locales
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
+            Implantamos soluciones de marketing digital, automatización con IA y comercio electrónico para que tu negocio gane visibilidad, clientes y eficiencia.
+          </p>
+          <div className="flex justify-center gap-4">
+            <a href="#contacto" className="px-8 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700">
+              Solicitar una demo
+            </a>
+            <a href="#servicios" className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg text-lg font-semibold hover:bg-gray-100">
+              Ver servicios
+            </a>
           </div>
-          <nav className="hidden md:flex gap-6 items-center text-sm">
-            <a href="#services" className="hover:underline">Servicios</a>
-            <a href="#about" className="hover:underline">Sobre mí</a>
-            <a href="#pricing" className="hover:underline">Precios</a>
-            <a href="#contact" className="px-4 py-2 bg-[var(--nb-primary)] text-white rounded-md shadow hover:opacity-90">Contacto</a>
-          </nav>
-        </header>
+        </div>
+      </section>
 
-        <main className="max-w-6xl mx-auto px-6 py-12">
-          <section className="grid md:grid-cols-2 gap-8 items-center hero-gradient p-8 rounded-lg">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold leading-tight" style={{color:'#0b3d91'}}>Digitalización real para empresas locales</h1>
-              <p className="mt-4 text-gray-600">Implantamos soluciones de marketing y comercio electrónico automatizadas con IA. Te ayudamos a captar clientes, optimizar procesos y aumentar ventas sin necesidad de contratar equipo interno.</p>
-              <ul className="mt-4 text-sm text-gray-600 list-disc list-inside">
-                <li>Implantación llave en mano</li>
-                <li>Automatización de contenido y gestión diaria</li>
-                <li>Mantenimiento y mejora continua</li>
-              </ul>
-              <div className="mt-6 flex gap-3">
-                <a href="#contact" className="px-5 py-3 bg-[var(--nb-primary)] text-white rounded-md shadow">Solicitar demo</a>
-                <a href="#services" className="px-5 py-3 border border-gray-200 rounded-md">Ver servicios</a>
+      {/* SERVICIOS */}
+      <section id="servicios" className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">Servicios</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { title: "Gestión de redes sociales", desc: "Contenido profesional, publicaciones y análisis optimizado para tu negocio." },
+              { title: "Contenido con IA", desc: "Creación automática de textos, imágenes y campañas adaptadas a tu marca." },
+              { title: "Páginas web y e‑commerce", desc: "Webs rápidas, modernas y optimizadas para convertir clientes." },
+              { title: "Publicidad online", desc: "Campañas en Meta Ads y Google Ads para atraer clientes reales." },
+              { title: "Consultoría digital", desc: "Análisis estratégico y acompañamiento en tu transformación digital." },
+              { title: "Automatizaciones empresariales", desc: "Procesos automáticos para ahorrar tiempo y mejorar la eficiencia." },
+              { title: "Branding y diseño", desc: "Diseño de identidad visual, logotipos y estilo corporativo." },
+              { title: "SEO y contenido web", desc: "Optimización para Google con contenido profesional y estrategia planificada." }
+            ].map((s, i) => (
+              <div key={i} className="p-6 bg-white shadow-sm rounded-xl border hover:shadow-md transition">
+                <h3 className="text-xl font-semibold mb-2">{s.title}</h3>
+                <p className="text-gray-600 text-sm">{s.desc}</p>
               </div>
-              <div className="mt-6 text-sm text-gray-500">Plan piloto local: 30 días de prueba para una implantación inicial de demostración.</div>
-            </div>
-            <div className="rounded-lg overflow-hidden shadow card-border p-6 bg-white">
-              <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=1200&q=60" alt="corporate" className="w-full h-64 object-cover rounded-md" />
-            </div>
-          </section>
-
-          <section id="services" className="mt-12">
-            <h2 className="text-2xl font-bold" style={{color:'var(--nb-primary)'}}>Servicios</h2>
-            <p className="mt-2 text-gray-600">Ofrecemos un conjunto completo de servicios pensado para pymes que quieren resultados con el mínimo esfuerzo operativo.</p>
-            <div className="mt-6 grid md:grid-cols-3 gap-6">
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Creación y gestión de redes sociales</h3>
-                <p className="text-sm text-gray-600 mt-2">Estrategia, creación de contenido y programación automática para mantener presencia constante.</p>
-              </div>
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Contenido automatizado con IA</h3>
-                <p className="text-sm text-gray-600 mt-2">Generación de textos, imágenes y guiones para vídeo optimizados para conversión.</p>
-              </div>
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Páginas web y e-commerce</h3>
-                <p className="text-sm text-gray-600 mt-2">Webs profesionales rápidas y tiendas online listas para vender.</p>
-              </div>
-
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Publicidad online (Meta/Google)</h3>
-                <p className="text-sm text-gray-600 mt-2">Campañas orientadas a ventas o captación de leads con medición clara del ROI.</p>
-              </div>
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Consultoría y estrategia</h3>
-                <p className="text-sm text-gray-600 mt-2">Auditoría inicial y plan de crecimiento digital adaptado a tu negocio.</p>
-              </div>
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Automatizaciones</h3>
-                <p className="text-sm text-gray-600 mt-2">Flujos automatizados para ventas, lead nurturing y atención al cliente.</p>
-              </div>
-
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Creación de marca y diseño</h3>
-                <p className="text-sm text-gray-600 mt-2">Identidad visual, logos y materiales listos para usar.</p>
-              </div>
-
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">SEO y contenido web</h3>
-                <p className="text-sm text-gray-600 mt-2">Optimización on-page y generación de contenido para mejorar visibilidad orgánica.</p>
-              </div>
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold">Soporte y mantenimiento</h3>
-                <p className="text-sm text-gray-600 mt-2">Actualizaciones, informes y mejoras continuas con un único responsable: la IA configurada por nosotros.</p>
-              </div>
-            </div>
-          </section>
-
-          <section id="pricing" className="mt-12">
-            <h2 className="text-2xl font-bold" style={{color:'var(--nb-primary)'}}>Planes y precios</h2>
-            <p className="mt-2 text-gray-600">Planes transparentes adaptados a pymes. Precios orientativos.</p>
-            <div className="mt-6 grid md:grid-cols-3 gap-6">
-              <div className="p-6 border rounded-lg">
-                <div className="text-sm text-gray-500">Pack inicial</div>
-                <div className="mt-2 text-2xl font-bold">€ 399</div>
-                <div className="mt-4 text-sm text-gray-600">Implantación básica + web + 30 días de prueba</div>
-              </div>
-              <div className="p-6 border rounded-lg bg-gray-50">
-                <div className="text-sm text-gray-500">Mantenimiento</div>
-                <div className="mt-2 text-2xl font-bold">€ 89 / mes</div>
-                <div className="mt-4 text-sm text-gray-600">Publicaciones automáticas y soporte básico</div>
-              </div>
-              <div className="p-6 border rounded-lg">
-                <div className="text-sm text-gray-500">E-commerce</div>
-                <div className="mt-2 text-2xl font-bold">€ 799</div>
-                <div className="mt-4 text-sm text-gray-600">Tienda + integraciones y formación</div>
-              </div>
-            </div>
-          </section>
-
-          <section id="about" className="mt-12">
-            <h2 className="text-2xl font-bold" style={{color:'var(--nb-primary)'}}>Sobre Next Business</h2>
-            <p className="mt-2 text-gray-600">Soy el fundador de Next Business, residente en Lakuntza (Sakana). Me encargo de la prospección y la relación con los clientes. La implantación y la gestión diaria la realizan soluciones de IA configuradas por mí para que las empresas no tengan que contratar personal adicional.</p>
-          </section>
-
-          <section id="contact" className="mt-12 mb-24">
-            <h2 className="text-2xl font-bold" style={{color:'var(--nb-primary)'}}>Contacto</h2>
-            <p className="mt-2 text-gray-600">Solicita una demo gratuita o plantea tu proyecto. Respuesta en 48 horas hábiles.</p>
-
-            <div className="mt-6 max-w-2xl">
-              <form action="https://formspree.io/f/xkgkpepa" method="POST" className="grid gap-3">
-                <input name="name" type="text" placeholder="Nombre" className="p-3 border rounded" required />
-                <input name="email" type="email" placeholder="Email" className="p-3 border rounded" required />
-                <input name="phone" type="tel" placeholder="Teléfono (opcional)" className="p-3 border rounded" />
-                <textarea name="message" rows="5" placeholder="Cuéntame tu proyecto" className="p-3 border rounded" required></textarea>
-                <div className="flex gap-3">
-                  <button type="submit" className="px-4 py-2 bg-[var(--nb-primary)] text-white rounded">Enviar</button>
-                  <a href="tel:+34948576000" className="px-4 py-2 border rounded">Llamar</a>
-                </div>
-              </form>
-              <div className="mt-4 text-sm text-gray-500">También puedes escribir a <a href="mailto:nextbusiness.test@gmail.com" className="underline">nextbusiness.test@gmail.com</a></div>
-            </div>
-          </section>
-        </main>
-
-        <footer className="border-t py-6">
-          <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-gray-600">© {new Date().getFullYear()} Next Business — Lakuntza, Sakana</div>
-            <div className="text-sm text-gray-600">Diseño corporativo · Implantación IA · Mantenimiento mensual</div>
+            ))}
           </div>
-        </footer>
-      </div>
+        </div>
+      </section>
+
+      {/* PROCESO */}
+      <section className="py-24">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold text-gray-900 mb-12">Cómo trabajamos</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { step: "01", title: "Consultoría inicial", desc: "Analizamos tu empresa y definimos objetivos claros." },
+              { step: "02", title: "Plan digital personalizado", desc: "Creamos una estrategia basada en IA y automatización." },
+              { step: "03", title: "Implantación", desc: "Desarrollamos tu web, redes, publicidad y procesos automáticos." },
+              { step: "04", title: "Mantenimiento", desc: "Mejoras continuas, informes y soporte mensual." }
+            ].map((s, i) => (
+              <div key={i} className="p-6 bg-white shadow-sm rounded-xl border">
+                <p className="text-3xl font-bold text-blue-600 mb-2">{s.step}</p>
+                <h3 className="text-xl font-semibold mb-2">{s.title}</h3>
+                <p className="text-gray-600 text-sm">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACTO */}
+      <section id="contacto" className="py-24 bg-gray-50 border-t">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-10">Contacto</h2>
+          <form action="https://formspree.io/f/xkgkpepa" method="POST" className="space-y-6 bg-white p-8 rounded-xl shadow-sm border">
+            <input type="text" name="name" placeholder="Nombre" className="w-full p-3 border rounded-lg" required />
+            <input type="email" name="email" placeholder="Email" className="w-full p-3 border rounded-lg" required />
+            <input type="text" name="phone" placeholder="Teléfono (opcional)" className="w-full p-3 border rounded-lg" />
+            <textarea name="message" placeholder="Mensaje" className="w-full p-3 border rounded-lg h-32" required></textarea>
+            <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700">
+              Enviar mensaje
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-10 bg-white border-t text-center text-gray-600 text-sm">
+        <p>© {new Date().getFullYear()} Next Business — Agencia de Marketing y Automatización</p>
+      </footer>
     </>
-  )
+  );
 }
