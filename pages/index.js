@@ -86,7 +86,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold">Contacto</h2>
             <p className="mt-2 text-gray-600">Escríbeme y coordinamos una demo gratuita.</p>
             <div className="mt-6 max-w-2xl">
-              <form action="mailto:nextbusiness.test@gmail.com" method="post" encType="text/plain" className="grid gap-3">
+              <form action="https://formspree.io/f/xkgkpepa" method="post" encType="text/plain" className="grid gap-3">
                 <input name="name" type="text" placeholder="Tu nombre" className="p-3 border rounded" required />
                 <input name="email" type="email" placeholder="Tu email" className="p-3 border rounded" required />
                 <textarea name="message" rows="5" placeholder="Cuéntame tu proyecto" className="p-3 border rounded" required></textarea>
