@@ -127,7 +127,7 @@ export default function Home() {
             <p className="mt-2 text-gray-600">Solicita una demo gratuita o plantea tu proyecto. Respuesta en 48 horas hábiles.</p>
 
             <div className="mt-6 max-w-2xl">
-              <form action="https://formspree.io/f/yourFormID" method="POST" className="grid gap-3">
+              <form action="https://formspree.io/f/xkgkpepa" method="POST" className="grid gap-3">
                 <input name="name" type="text" placeholder="Nombre" className="p-3 border rounded" required />
                 <input name="email" type="email" placeholder="Email" className="p-3 border rounded" required />
                 <input name="phone" type="tel" placeholder="Teléfono (opcional)" className="p-3 border rounded" />
