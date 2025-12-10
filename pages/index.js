@@ -231,7 +231,7 @@ export default function Home() {
               Sobre Next Business
             </h2>
             <p className="mt-2 text-gray-600 max-w-3xl">
-              Next Business nace en Lakuntza (Sakana, Navarra) para acompañar a las
+              Next Business nace en Lakuntza (Navarra) para acompañar a las
     empresas en su salto digital de una forma práctica y entendible. Nos
     apoyamos en IA y automatización, sí, pero siempre con un enfoque muy
     humano: escuchar, entender el negocio y proponer solo aquello que tiene
