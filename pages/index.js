@@ -1,20 +1,56 @@
 import Head from "next/head";
+import { useState } from "react";
+
+const FORM_ENDPOINT = "https://formspree.io/f/xkgkpepa"; // <-- cambia yourFormID por el tuyo
 
 export default function Home() {
+  const [status, setStatus] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("LOADING");
+
+    const form = e.target;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+
+      if (res.ok) {
+        setStatus("OK");
+        form.reset(); // limpia todos los campos del formulario
+      } else {
+        setStatus("ERROR");
+      }
+    } catch (err) {
+      setStatus("ERROR");
+    }
+  };
+
   return (
     <>
       <Head>
-        <title>Next Business — IA y automatización para pymes</title>
+        {/* 2) Título del navegador */}
+        <title>Next Business</title>
         <meta
           name="description"
           content="Next Business ayuda a pequeñas y medianas empresas a digitalizarse y aumentar ventas mediante soluciones de marketing y automatización con IA."
         />
-        <meta property="og:title" content="Next Business — IA y automatización para pymes" />
+        <meta
+          property="og:title"
+          content="Next Business — Agencia de marketing y automatización"
+        />
         <meta
           property="og:description"
           content="Agencia de marketing y automatización con IA para pymes en Sakana y alrededores."
         />
         <meta property="og:image" content="/og_image.png" />
+        {/* 1) Favicon usando el logo */}
+        <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
 
       <div className="min-h-screen bg-white text-gray-800 antialiased">
@@ -27,23 +63,22 @@ export default function Home() {
               className="w-14 h-14 object-contain"
             />
             <div>
+              {/* 5) Solo “Next Business” */}
               <div className="text-lg font-semibold text-blue-900">
                 Next Business
               </div>
-              <div className="text-xs text-gray-500">
-                Agencia de Marketing y Automatización
-              </div>
             </div>
           </div>
+          {/* 6) Orden del menú: servicios, precios, sobre, contacto */}
           <nav className="hidden md:flex gap-6 items-center text-sm">
             <a href="#services" className="hover:underline">
               Servicios
             </a>
-            <a href="#process" className="hover:underline">
-              Cómo trabajamos
-            </a>
             <a href="#pricing" className="hover:underline">
               Precios
+            </a>
+            <a href="#about" className="hover:underline">
+              Sobre Next Business
             </a>
             <a
               href="#contact"
@@ -62,9 +97,10 @@ export default function Home() {
                 Digitalización real para empresas locales
               </h1>
               <p className="mt-4 text-gray-600">
-                Implantamos soluciones de marketing digital, automatización con IA y comercio
-                electrónico para que tu negocio gane visibilidad, clientes y eficiencia,
-                sin necesidad de montar un departamento de marketing interno.
+                Implantamos soluciones de marketing digital, automatización con IA
+                y comercio electrónico para que tu negocio gane visibilidad,
+                clientes y eficiencia, sin necesidad de montar un departamento de
+                marketing interno.
               </p>
               <ul className="mt-4 text-sm text-gray-600 list-disc list-inside space-y-1">
                 <li>Implantación llave en mano</li>
@@ -90,11 +126,12 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+            {/* 3) Quitamos la mandarina y usamos el logo en el lateral */}
+            <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm flex items-center justify-center bg-gray-50">
               <img
-                src="/og_image.png"
+                src="/logo.png"
                 alt="Next Business"
-                className="w-full h-64 object-cover"
+                className="w-40 h-40 object-contain"
               />
             </div>
           </section>
@@ -159,51 +196,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* PROCESO */}
-          <section id="process" className="mt-16">
-            <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
-              Cómo trabajamos
-            </h2>
-            <p className="mt-2 text-gray-600 max-w-2xl">
-              Un proceso simple y claro, pensado para pymes que quieren resultados
-              sin complicarse.
-            </p>
-
-            <div className="mt-8 grid gap-6 md:grid-cols-4">
-              {[
-                {
-                  step: "01",
-                  title: "Reunión inicial",
-                  desc: "Analizamos tu empresa, objetivos y punto de partida.",
-                },
-                {
-                  step: "02",
-                  title: "Plan digital",
-                  desc: "Definimos una propuesta con servicios y precio cerrado.",
-                },
-                {
-                  step: "03",
-                  title: "Implantación",
-                  desc: "Configuramos web, redes, campañas y automatizaciones.",
-                },
-                {
-                  step: "04",
-                  title: "Mantenimiento",
-                  desc: "Revisiones mensuales, informes y mejoras continuas.",
-                },
-              ].map((p, i) => (
-                <div
-                  key={i}
-                  className="p-5 border border-gray-100 rounded-xl bg-white shadow-sm"
-                >
-                  <p className="text-2xl font-bold text-blue-900">{p.step}</p>
-                  <h3 className="mt-2 text-lg font-semibold">{p.title}</h3>
-                  <p className="mt-1 text-sm text-gray-600">{p.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
           {/* PRECIOS */}
           <section id="pricing" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
@@ -243,7 +235,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SOBRE MÍ */}
+          {/* SOBRE LA EMPRESA */}
           <section id="about" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Sobre Next Business
@@ -268,9 +260,9 @@ export default function Home() {
             </p>
 
             <div className="mt-6 max-w-2xl">
+              {/* 7) Formspree sin redirección, limpia el formulario */}
               <form
-                action="https://formspree.io/f/xkgkpepa"
-                method="POST"
+                onSubmit={handleSubmit}
                 className="grid gap-4 bg-white p-6 border border-gray-100 rounded-xl shadow-sm"
               >
                 <input
@@ -302,12 +294,41 @@ export default function Home() {
                 />
                 <button
                   type="submit"
-                  className="mt-2 px-4 py-3 bg-blue-900 text-white rounded-md font-semibold hover:bg-blue-800"
+                  disabled={status === "LOADING"}
+                  className="mt-2 px-4 py-3 bg-blue-900 text-white rounded-md font-semibold hover:bg-blue-800 disabled:opacity-60"
                 >
-                  Enviar mensaje
+                  {status === "LOADING" ? "Enviando..." : "Enviar mensaje"}
                 </button>
+
+                {status === "OK" && (
+                  <p className="text-sm text-green-600">
+                    Mensaje enviado correctamente. Te responderé lo antes posible.
+                  </p>
+                )}
+                {status === "ERROR" && (
+                  <p className="text-sm text-red-600">
+                    Ha habido un problema al enviar el mensaje. Por favor, prueba
+                    de nuevo o escríbeme a{" "}
+                    <a
+                      href="mailto:nextbusiness.test@gmail.com"
+                      className="underline"
+                    >
+                      nextbusiness.test@gmail.com
+                    </a>
+                    .
+                  </p>
+                )}
               </form>
 
+              <div className="mt-4 text-sm text-gray-500">
+                También puedes escribir a{" "}
+                <a
+                  href="mailto:nextbusiness.test@gmail.com"
+                  className="underline"
+                >
+                  nextbusiness.test@gmail.com
+                </a>
+              </div>
             </div>
           </section>
         </main>
