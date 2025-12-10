@@ -231,11 +231,15 @@ export default function Home() {
               Sobre Next Business
             </h2>
             <p className="mt-2 text-gray-600 max-w-3xl">
-              Soy el fundador de Next Business y vivo en Lakuntza (Sakana). Me
-              encargo personalmente de la relación con el cliente y del diseño de
-              las soluciones. La ejecución diaria se apoya en automatizaciones e
-              inteligencia artificial, para que las pymes puedan competir sin
-              necesidad de grandes estructuras internas.
+              Next Business nace en Lakuntza (Sakana, Navarra) para acompañar a las
+    empresas en su salto digital de una forma práctica y entendible. Nos
+    apoyamos en IA y automatización, sí, pero siempre con un enfoque muy
+    humano: escuchar, entender el negocio y proponer solo aquello que tiene
+    sentido. Trabajamos especialmente con pymes y empresas en crecimiento,
+    tanto de la zona como del resto de España, que quieren mejorar su
+    presencia online sin llenar su agenda de tareas. Nuestro objetivo es
+    que tengas un sistema que funcione en segundo plano mientras tú te
+    centras en tu empresa.
             </p>
           </section>
 
