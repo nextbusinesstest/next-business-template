@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 
-const FORM_ENDPOINT = "https://formspree.io/f/xkgkpepa"; // <-- pon aquí tu endpoint real
+const FORM_ENDPOINT = "https://formspree.io/f/xkgkpepa";
 
 export default function Home() {
   const [status, setStatus] = useState(null);
@@ -34,24 +34,25 @@ export default function Home() {
   return (
     <>
       <Head>
-  <title>Next Business</title>
-  <meta
-    name="description"
-    content="Next Business es una agencia de marketing y automatización con IA para pymes y empresas en crecimiento. Nacida en Sakana (Navarra), trabajamos en remoto con negocios de toda España."
-  />
-  <meta
-    property="og:title"
-    content="Next Business — Marketing y automatización con IA"
-  />
-  <meta
-    property="og:description"
-    content="Diseñamos sistemas de captación y automatización con IA para empresas de cualquier tamaño. Origen en Sakana, servicio para toda España."
-  />
-  <meta property="og:image" content="/og_image.png" />
-  <link rel="icon" type="image/png" href="/logo.png" />
-</Head>
+        <title>Next Business</title>
+        <meta
+          name="description"
+          content="Next Business es una agencia de marketing y automatización con IA que diseña sistemas de captación, contenido y ventas para negocios que quieren crecer sin sumar más trabajo manual."
+        />
+        <meta
+          property="og:title"
+          content="Next Business — Marketing y automatización con IA"
+        />
+        <meta
+          property="og:description"
+          content="Creamos y automatizamos tu sistema de marketing: web, contenido, campañas y procesos para que puedas enfocarte en tu negocio."
+        />
+        <meta property="og:image" content="/og_image.png" />
+        <link rel="icon" type="image/png" href="/logo.png" />
+      </Head>
 
       <div className="min-h-screen bg-white text-gray-800 antialiased">
+        {/* HEADER */}
         <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img
@@ -85,21 +86,22 @@ export default function Home() {
         </header>
 
         <main className="max-w-6xl mx-auto px-6 pb-16">
+          {/* HERO */}
           <section className="mt-8 grid md:grid-cols-2 gap-10 items-center">
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold leading-tight text-blue-900">
-                Digitalización real para empresas locales
+                Marketing y automatización con IA para negocios que quieren crecer
               </h1>
               <p className="mt-4 text-gray-600">
-                Implantamos soluciones de marketing digital, automatización con IA
-                y comercio electrónico para que tu negocio gane visibilidad,
-                clientes y eficiencia, sin necesidad de montar un departamento de
-                marketing interno.
+                Diseñamos y ponemos en marcha sistemas de marketing que trabajan
+                en segundo plano por tu negocio: página web, contenido, campañas
+                y automatizaciones que generan oportunidades sin depender de que
+                tú estés encima de todo cada día.
               </p>
               <ul className="mt-4 text-sm text-gray-600 list-disc list-inside space-y-1">
-                <li>Implantación llave en mano</li>
-                <li>Gestión diaria semi-automatizada</li>
-                <li>Acompañamiento y mejora continua</li>
+                <li>Implantación completa: de la estrategia a la ejecución.</li>
+                <li>Procesos apoyados en IA para reducir tareas repetitivas.</li>
+                <li>Enfoque práctico: menos ruido, más resultados.</li>
               </ul>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
@@ -116,7 +118,8 @@ export default function Home() {
                 </a>
               </div>
               <p className="mt-4 text-xs text-gray-500">
-                Proyecto piloto local en Sakana · plazas limitadas.
+                Ideal para negocios que quieren dar un salto en su presencia
+                digital sin añadir más carga de trabajo al día a día.
               </p>
             </div>
 
@@ -129,52 +132,54 @@ export default function Home() {
             </div>
           </section>
 
+          {/* SERVICIOS */}
           <section id="services" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Servicios
             </h2>
             <p className="mt-2 text-gray-600 max-w-2xl">
-              Unimos marketing, automatización e IA para que tu empresa pueda
-              vender más con menos esfuerzo operativo.
+              Combinamos estrategia, creatividad y automatización para construir
+              un sistema de marketing estable alrededor de tu negocio, no solo
+              acciones sueltas.
             </p>
 
             <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   title: "Gestión de redes sociales",
-                  desc: "Contenido profesional, calendario mensual y publicaciones programadas.",
+                  desc: "Calendario de contenido, publicaciones programadas y presencia constante en los canales clave para tu negocio.",
                 },
                 {
                   title: "Contenido con IA",
-                  desc: "Textos, imágenes y guiones generados con IA y revisados antes de publicar.",
+                  desc: "Textos, imágenes y guiones generados con IA y revisados a mano para mantener el tono y la calidad que tu marca necesita.",
                 },
                 {
                   title: "Páginas web y e-commerce",
-                  desc: "Webs rápidas y tiendas online pensadas para convertir visitas en clientes.",
+                  desc: "Webs rápidas, claras y enfocadas a generar contactos y ventas, con una base lista para futuras automatizaciones.",
                 },
                 {
                   title: "Publicidad online",
-                  desc: "Campañas en Meta Ads y Google Ads enfocadas a resultados medibles.",
+                  desc: "Campañas en Meta Ads y Google Ads diseñadas para captar leads y clientes con un control real del presupuesto.",
                 },
                 {
                   title: "Consultoría y estrategia digital",
-                  desc: "Análisis de tu situación y plan de acción adaptado a tus recursos.",
+                  desc: "Análisis del punto de partida y diseño de un plan digital realista, alineado con los recursos y objetivos del negocio.",
                 },
                 {
                   title: "Automatizaciones",
-                  desc: "Flujos automáticos para captación de leads, ventas y atención básica.",
+                  desc: "Flujos automáticos para gestionar contactos, responder de forma básica y hacer seguimiento sin depender del calendario.",
                 },
                 {
                   title: "Branding y diseño",
-                  desc: "Identidad visual, logotipos y materiales corporativos listos para usar.",
+                  desc: "Identidad visual, logotipos y materiales digitales coherentes para que tu marca se vea profesional en todos los puntos de contacto.",
                 },
                 {
                   title: "SEO y contenido web",
-                  desc: "Optimización para Google y creación de contenido relevante para tu sector.",
+                  desc: "Optimización técnica y de contenidos para mejorar la visibilidad en buscadores y atraer visitas cualificadas.",
                 },
                 {
                   title: "Soporte y mantenimiento",
-                  desc: "Actualizaciones, informes y ajustes mensuales con un único interlocutor.",
+                  desc: "Acompañamiento continuo, ajustes mensuales y mejoras evolutivas según los datos y la respuesta de tus clientes.",
                 },
               ].map((s, i) => (
                 <div
@@ -188,13 +193,15 @@ export default function Home() {
             </div>
           </section>
 
+          {/* PRECIOS */}
           <section id="pricing" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Planes orientativos
             </h2>
             <p className="mt-2 text-gray-600 max-w-2xl">
-              Adaptamos cada propuesta a la realidad de tu negocio. Estos son
-              rangos orientativos para pymes.
+              Cada negocio es distinto, pero es importante tener una referencia.
+              Estos rangos sirven como punto de partida para ajustar una
+              propuesta a medida según tus objetivos y nivel actual.
             </p>
 
             <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -202,7 +209,8 @@ export default function Home() {
                 <div className="text-xs uppercase text-gray-500">Implantación</div>
                 <div className="mt-2 text-2xl font-bold">Desde 399 €</div>
                 <p className="mt-3 text-sm text-gray-600">
-                  Web básica, presencia en redes y primeras automatizaciones.
+                  Puesta en marcha inicial: web, presencia digital básica y
+                  primeras automatizaciones para empezar a medir resultados.
                 </p>
               </div>
 
@@ -212,7 +220,8 @@ export default function Home() {
                 </div>
                 <div className="mt-2 text-2xl font-bold">Desde 89 € / mes</div>
                 <p className="mt-3 text-sm text-gray-700">
-                  Gestión de contenido, ajustes periódicos y soporte directo.
+                  Gestión de contenido, pequeños ajustes, seguimiento y soporte
+                  directo para mantener el sistema vivo y mejorando.
                 </p>
               </div>
 
@@ -220,35 +229,40 @@ export default function Home() {
                 <div className="text-xs uppercase text-gray-500">E-commerce</div>
                 <div className="mt-2 text-2xl font-bold">Desde 799 €</div>
                 <p className="mt-3 text-sm text-gray-600">
-                  Tienda online, pasarela de pago e integraciones básicas.
+                  Tienda online, configuración de pagos e integraciones básicas
+                  para empezar a vender productos o servicios de forma digital.
                 </p>
               </div>
             </div>
           </section>
 
+          {/* SOBRE NEXT BUSINESS */}
           <section id="about" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Sobre Next Business
             </h2>
             <p className="mt-2 text-gray-600 max-w-3xl">
-              Next Business nace en Lakuntza (Navarra) para acompañar a las
-    empresas en su salto digital de una forma práctica y entendible. Nos
-    apoyamos en IA y automatización, sí, pero siempre con un enfoque muy
-    humano: escuchar, entender el negocio y proponer solo aquello que tiene
-    sentido. Trabajamos especialmente con pymes y empresas en crecimiento,
-    tanto de la zona como del resto de España, que quieren mejorar su
-    presencia online sin llenar su agenda de tareas. Nuestro objetivo es
-    que tengas un sistema que funcione en segundo plano mientras tú te
-    centras en tu empresa.
+              Next Business es una agencia digital pensada para negocios que
+              quieren tomarse en serio su presencia online sin convertir el
+              marketing en otra jornada laboral. Combinamos herramientas de
+              inteligencia artificial y automatización con una manera de trabajar
+              muy sencilla: entender bien el negocio, definir un sistema y
+              mantenerlo en el tiempo. No se trata solo de tener una web o unas
+              redes sociales, sino de que todo lo que hagas en digital tenga un
+              propósito claro y pueda medirse. La idea es que sientas que hay
+              alguien al otro lado que se ocupa de tu marketing mientras tú te
+              concentras en hacer crecer la empresa.
             </p>
           </section>
 
+          {/* CONTACTO */}
           <section id="contact" className="mt-16 mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Contacto
             </h2>
             <p className="mt-2 text-gray-600 max-w-2xl">
-              Cuéntame brevemente tu situación y te propongo una demo gratuita sin
+              Cuéntame brevemente en qué punto está tu negocio y qué te gustaría
+              mejorar. A partir de ahí, prepararemos una demo o propuesta sin
               compromiso.
             </p>
 
@@ -280,7 +294,7 @@ export default function Home() {
                 <textarea
                   name="message"
                   rows={5}
-                  placeholder="Cuéntame tu proyecto, sector y qué te gustaría mejorar."
+                  placeholder="Ejemplo: tenemos una empresa de X, queremos mejorar nuestra web, redes o sistema de captación."
                   className="p-3 border rounded-md w-full"
                   required
                 />
@@ -325,10 +339,11 @@ export default function Home() {
           </section>
         </main>
 
+        {/* FOOTER */}
         <footer className="border-t py-6">
           <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-600">
-            <div>© {new Date().getFullYear()} Next Business — Lakuntza, Sakana</div>
-            <div>Agencia de marketing y automatización con IA para pymes.</div>
+            <div>© {new Date().getFullYear()} Next Business</div>
+            <div>Agencia de marketing y automatización con IA para negocios.</div>
           </div>
         </footer>
       </div>
