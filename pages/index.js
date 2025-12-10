@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 
-const FORM_ENDPOINT = "https://formspree.io/f/xkgkpepa"; // <-- cambia yourFormID por el tuyo
+const FORM_ENDPOINT = "https://formspree.io/f/xkgkpepa"; // <-- pon aquí tu endpoint real
 
 export default function Home() {
   const [status, setStatus] = useState(null);
@@ -22,7 +22,7 @@ export default function Home() {
 
       if (res.ok) {
         setStatus("OK");
-        form.reset(); // limpia todos los campos del formulario
+        form.reset();
       } else {
         setStatus("ERROR");
       }
@@ -34,7 +34,6 @@ export default function Home() {
   return (
     <>
       <Head>
-        {/* 2) Título del navegador */}
         <title>Next Business</title>
         <meta
           name="description"
@@ -49,12 +48,10 @@ export default function Home() {
           content="Agencia de marketing y automatización con IA para pymes en Sakana y alrededores."
         />
         <meta property="og:image" content="/og_image.png" />
-        {/* 1) Favicon usando el logo */}
         <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
 
       <div className="min-h-screen bg-white text-gray-800 antialiased">
-        {/* HEADER */}
         <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img
@@ -63,13 +60,11 @@ export default function Home() {
               className="w-14 h-14 object-contain"
             />
             <div>
-              {/* 5) Solo “Next Business” */}
               <div className="text-lg font-semibold text-blue-900">
                 Next Business
               </div>
             </div>
           </div>
-          {/* 6) Orden del menú: servicios, precios, sobre, contacto */}
           <nav className="hidden md:flex gap-6 items-center text-sm">
             <a href="#services" className="hover:underline">
               Servicios
@@ -90,7 +85,6 @@ export default function Home() {
         </header>
 
         <main className="max-w-6xl mx-auto px-6 pb-16">
-          {/* HERO */}
           <section className="mt-8 grid md:grid-cols-2 gap-10 items-center">
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold leading-tight text-blue-900">
@@ -126,7 +120,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 3) Quitamos la mandarina y usamos el logo en el lateral */}
             <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm flex items-center justify-center bg-gray-50">
               <img
                 src="/logo.png"
@@ -136,7 +129,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SERVICIOS */}
           <section id="services" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Servicios
@@ -196,7 +188,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* PRECIOS */}
           <section id="pricing" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Planes orientativos
@@ -235,7 +226,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SOBRE LA EMPRESA */}
           <section id="about" className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Sobre Next Business
@@ -249,7 +239,6 @@ export default function Home() {
             </p>
           </section>
 
-          {/* CONTACTO */}
           <section id="contact" className="mt-16 mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
               Contacto
@@ -260,7 +249,6 @@ export default function Home() {
             </p>
 
             <div className="mt-6 max-w-2xl">
-              {/* 7) Formspree sin redirección, limpia el formulario */}
               <form
                 onSubmit={handleSubmit}
                 className="grid gap-4 bg-white p-6 border border-gray-100 rounded-xl shadow-sm"
@@ -333,7 +321,6 @@ export default function Home() {
           </section>
         </main>
 
-        {/* FOOTER */}
         <footer className="border-t py-6">
           <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-600">
             <div>© {new Date().getFullYear()} Next Business — Lakuntza, Sakana</div>
