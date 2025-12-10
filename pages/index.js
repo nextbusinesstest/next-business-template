@@ -34,22 +34,22 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Next Business</title>
-        <meta
-          name="description"
-          content="Next Business ayuda a pequeñas y medianas empresas a digitalizarse y aumentar ventas mediante soluciones de marketing y automatización con IA."
-        />
-        <meta
-          property="og:title"
-          content="Next Business — Agencia de marketing y automatización"
-        />
-        <meta
-          property="og:description"
-          content="Agencia de marketing y automatización con IA para pymes en Sakana y alrededores."
-        />
-        <meta property="og:image" content="/og_image.png" />
-        <link rel="icon" type="image/png" href="/logo.png" />
-      </Head>
+  <title>Next Business</title>
+  <meta
+    name="description"
+    content="Next Business es una agencia de marketing y automatización con IA para pymes y empresas en crecimiento. Nacida en Sakana (Navarra), trabajamos en remoto con negocios de toda España."
+  />
+  <meta
+    property="og:title"
+    content="Next Business — Marketing y automatización con IA"
+  />
+  <meta
+    property="og:description"
+    content="Diseñamos sistemas de captación y automatización con IA para empresas de cualquier tamaño. Origen en Sakana, servicio para toda España."
+  />
+  <meta property="og:image" content="/og_image.png" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+</Head>
 
       <div className="min-h-screen bg-white text-gray-800 antialiased">
         <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
