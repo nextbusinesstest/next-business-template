@@ -117,7 +117,7 @@ export default function NewClientPage() {
                       type="text"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="Ej. Electricidad Lakuntza"
+                      placeholder="Ej. Nombre empresa"
                     />
                   </div>
                   <div>
@@ -140,7 +140,7 @@ export default function NewClientPage() {
                       type="text"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="Ej. Lakuntza, Navarra, España"
+                      placeholder="Ej. Pueblo, Provincia, País"
                     />
                   </div>
                   <div>
