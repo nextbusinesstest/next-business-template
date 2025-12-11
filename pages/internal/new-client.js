@@ -3,6 +3,9 @@ import { useState } from "react";
 
 export default function NewClientPage() {
   const [clientBrief, setClientBrief] = useState(null);
+  const [siteSpec, setSiteSpec] = useState(null);
+  const [aiStatus, setAiStatus] = useState("idle");
+  const [aiError, setAiError] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +57,34 @@ export default function NewClientPage() {
     };
 
     setClientBrief(brief);
-    // Más adelante aquí llamaremos a la IA con este JSON.
+    setSiteSpec(null);
+    setAiStatus("idle");
+    setAiError(null);
+  };
+
+  const handleGenerateSiteSpec = async () => {
+    if (!clientBrief) return;
+    try {
+      setAiStatus("loading");
+      setAiError(null);
+      const res = await fetch("/api/generate-site", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ client_brief: clientBrief }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Error al generar site_spec");
+      }
+
+      setSiteSpec(data.site_spec);
+      setAiStatus("done");
+    } catch (err) {
+      console.error(err);
+      setAiError(err.message || "Error desconocido");
+      setAiStatus("error");
+    }
   };
 
   return (
@@ -301,7 +331,10 @@ export default function NewClientPage() {
               </div>
 
               {/* BOTÓN */}
-              <div className="pt-2 border-t border-gray-100 flex justify-end">
+              <div className="pt-2 border-t border-gray-100 flex justify-between items-center flex-wrap gap-3">
+                <span className="text-xs text-gray-500">
+                  1) Guardar brief · 2) Generar site_spec (demo IA)
+                </span>
                 <button
                   type="submit"
                   className="px-4 py-2.5 bg-blue-900 text-white text-sm font-semibold rounded-md hover:bg-blue-800"
@@ -312,7 +345,7 @@ export default function NewClientPage() {
             </form>
           </section>
 
-          {/* PANEL JSON */}
+          {/* PANEL JSON / IA */}
           <section className="space-y-4">
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
               <h2 className="text-sm font-semibold text-gray-700 mb-2">
@@ -320,18 +353,57 @@ export default function NewClientPage() {
               </h2>
               <p className="text-xs text-gray-500 mb-3">
                 Este es el objeto JSON que se enviará a la IA para generar la web
-                del cliente. Más adelante, desde aquí podemos lanzar la llamada a
-                la API, guardar en base de datos o disparar un flujo en Make/n8n.
+                del cliente.
               </p>
               {clientBrief ? (
-                <pre className="text-xs bg-gray-900 text-gray-100 p-3 rounded-md overflow-auto max-h-[460px]">
+                <pre className="text-xs bg-gray-900 text-gray-100 p-3 rounded-md overflow-auto max-h-48">
                   {JSON.stringify(clientBrief, null, 2)}
                 </pre>
               ) : (
                 <div className="text-xs text-gray-500">
-                  Rellena el formulario de la izquierda y pulsa{" "}
+                  Rellena el formulario y pulsa{" "}
                   <span className="font-semibold">“Generar brief JSON”</span> para
                   ver el resultado aquí.
+                </div>
+              )}
+            </div>
+
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-sm font-semibold text-gray-700">
+                  Resultado · site_spec (demo IA)
+                </h2>
+                <button
+                  type="button"
+                  onClick={handleGenerateSiteSpec}
+                  disabled={!clientBrief || aiStatus === "loading"}
+                  className="px-3 py-1.5 bg-blue-900 text-white text-xs rounded-md disabled:opacity-60"
+                >
+                  {aiStatus === "loading"
+                    ? "Generando..."
+                    : "Generar desde brief"}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mb-3">
+                Este es el JSON que la plantilla Next podrá usar para montar la
+                web del cliente. Ahora mismo es una simulación sin IA real.
+              </p>
+              {aiError && (
+                <p className="text-xs text-red-600 mb-2">
+                  Error: {aiError}
+                </p>
+              )}
+              {siteSpec ? (
+                <pre className="text-xs bg-gray-900 text-gray-100 p-3 rounded-md overflow-auto max-h-64">
+                  {JSON.stringify(siteSpec, null, 2)}
+                </pre>
+              ) : (
+                <div className="text-xs text-gray-500">
+                  Primero genera el <code>client_brief</code> y luego pulsa{" "}
+                  <span className="font-semibold">
+                    “Generar desde brief”
+                  </span>{" "}
+                  para crear un <code>site_spec</code>.
                 </div>
               )}
             </div>
