@@ -64,7 +64,6 @@ export default function NewClientPage() {
         <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
 
-
       <div className="min-h-screen bg-gray-50 text-gray-800">
         <header className="border-b bg-white">
           <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -130,7 +129,7 @@ export default function NewClientPage() {
                       name="currentWebsite"
                       type="url"
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="https://..."
+                      placeholder="Ej. https://www.tuempresa.com"
                     />
                   </div>
                   <div>
@@ -142,7 +141,7 @@ export default function NewClientPage() {
                       type="text"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="Ej. Pueblo, Provincia, País"
+                      placeholder="Ej. Ciudad, región, país"
                     />
                   </div>
                   <div>
@@ -154,7 +153,7 @@ export default function NewClientPage() {
                       type="text"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="Ej. Servicios eléctricos"
+                      placeholder="Ej. Sector o actividad principal"
                     />
                   </div>
                   <div>
@@ -166,7 +165,7 @@ export default function NewClientPage() {
                       type="text"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="Ej. Instalaciones eléctricas y mantenimiento industrial"
+                      placeholder="Ej. Tipo de negocio (taller mecánico, clínica dental, e-commerce…)"
                     />
                   </div>
                 </div>
@@ -187,9 +186,7 @@ export default function NewClientPage() {
                       required
                       className="w-full p-2.5 border rounded-md text-sm bg-white"
                     >
-                      <option value="">
-                        Selecciona una opción...
-                      </option>
+                      <option value="">Selecciona una opción...</option>
                       <option value="Captar contactos / solicitudes de presupuesto">
                         Captar contactos / solicitudes de presupuesto
                       </option>
@@ -224,7 +221,7 @@ export default function NewClientPage() {
                   rows={5}
                   className="w-full p-2.5 border rounded-md text-sm"
                   placeholder={
-                    "Ej.\nInstalaciones eléctricas en naves industriales\nMantenimiento eléctrico preventivo y correctivo\nBoletines eléctricos y legalizaciones"
+                    "Ej.\nInstalación y mantenimiento de equipos\nVenta de productos o servicios específicos\nServicio posventa y atención al cliente"
                   }
                 />
               </div>
@@ -242,7 +239,7 @@ export default function NewClientPage() {
                   required
                   rows={3}
                   className="w-full p-2.5 border rounded-md text-sm"
-                  placeholder="Ej. Empresas industriales, talleres, comercios y comunidades que necesitan un servicio eléctrico profesional y de confianza."
+                  placeholder="Ej. Empresas que necesitan..., familias que buscan..., clientes que valoran..."
                 />
               </div>
 
@@ -261,7 +258,7 @@ export default function NewClientPage() {
                       type="text"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="+34 ..."
+                      placeholder="Ej. +34 600 000 000"
                     />
                   </div>
                   <div>
@@ -273,7 +270,7 @@ export default function NewClientPage() {
                       type="email"
                       required
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="info@empresa.com"
+                      placeholder="Ej. info@empresa.com"
                     />
                   </div>
                   <div className="md:col-span-2">
@@ -284,7 +281,7 @@ export default function NewClientPage() {
                       name="address"
                       type="text"
                       className="w-full p-2.5 border rounded-md text-sm"
-                      placeholder="Calle, número, ciudad..."
+                      placeholder="Ej. Calle, número, ciudad..."
                     />
                   </div>
                   <div className="md:col-span-2">
