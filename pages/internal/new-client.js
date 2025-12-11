@@ -61,7 +61,9 @@ export default function NewClientPage() {
     <>
       <Head>
         <title>Next Business · Nuevo cliente</title>
+        <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
+
 
       <div className="min-h-screen bg-gray-50 text-gray-800">
         <header className="border-b bg-white">
