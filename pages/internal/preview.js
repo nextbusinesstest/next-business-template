@@ -1,18 +1,50 @@
 import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
 
+/* ---------------- SECTION RENDERER ---------------- */
+
 function Section({ section }) {
   if (!section) return null;
 
   if (section.type === "cards") {
     return (
-      <section id={section.id} className="mt-14">
-        <h2 className="text-2xl md:text-3xl font-bold">{section.title}</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-3">
-          {(section.items || []).map((it, i) => (
-            <div key={i} className="p-5 border rounded-xl bg-white shadow-sm">
-              <div className="font-semibold">{it.name}</div>
-              <div className="mt-2 text-sm text-gray-600">{it.description}</div>
+      <section id={section.id} className="mt-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">
+          {section.title}
+        </h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {section.items?.map((item, i) => (
+            <div
+              key={i}
+              className="p-5 border rounded-xl bg-white shadow-sm"
+            >
+              <h3 className="font-semibold text-lg">{item.name}</h3>
+              <p className="mt-2 text-sm text-gray-600">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "services_grid") {
+    return (
+      <section id={section.id} className="mt-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">
+          {section.title}
+        </h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {section.items?.map((item, i) => (
+            <div
+              key={i}
+              className="p-5 border rounded-xl bg-white shadow-sm"
+            >
+              <h3 className="font-semibold">{item.name}</h3>
+              <p className="mt-2 text-sm text-gray-600">
+                {item.description}
+              </p>
             </div>
           ))}
         </div>
@@ -22,10 +54,12 @@ function Section({ section }) {
 
   if (section.type === "bullets") {
     return (
-      <section id={section.id} className="mt-14">
-        <h2 className="text-2xl md:text-3xl font-bold">{section.title}</h2>
-        <ul className="mt-4 space-y-2 list-disc list-inside text-gray-700">
-          {(section.bullets || []).map((b, i) => (
+      <section id={section.id} className="mt-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          {section.title}
+        </h2>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          {section.bullets?.map((b, i) => (
             <li key={i}>{b}</li>
           ))}
         </ul>
@@ -33,27 +67,13 @@ function Section({ section }) {
     );
   }
 
-  if (section.type === "services_grid") {
-    return (
-      <section id={section.id} className="mt-14">
-        <h2 className="text-2xl md:text-3xl font-bold">{section.title}</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {(section.items || []).map((it, i) => (
-            <div key={i} className="p-5 border rounded-xl bg-white shadow-sm">
-              <div className="font-semibold">{it.name}</div>
-              <div className="mt-2 text-sm text-gray-600">{it.description}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
-
   if (section.type === "text") {
     return (
-      <section id={section.id} className="mt-14">
-        <h2 className="text-2xl md:text-3xl font-bold">{section.title}</h2>
-        <p className="mt-3 text-gray-700 leading-relaxed max-w-3xl">
+      <section id={section.id} className="mt-16 max-w-3xl">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          {section.title}
+        </h2>
+        <p className="text-gray-700 leading-relaxed">
           {section.body}
         </p>
       </section>
@@ -62,15 +82,19 @@ function Section({ section }) {
 
   if (section.type === "contact") {
     return (
-      <section id={section.id} className="mt-14 mb-20">
-        <h2 className="text-2xl md:text-3xl font-bold">{section.title}</h2>
-        <p className="mt-2 text-gray-700">{section.body}</p>
+      <section id={section.id} className="mt-16 max-w-2xl">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          {section.title}
+        </h2>
+        <p className="text-gray-700">{section.body}</p>
       </section>
     );
   }
 
   return null;
 }
+
+/* ---------------- PAGE ---------------- */
 
 export default function PreviewPage() {
   const [siteSpec, setSiteSpec] = useState(null);
@@ -80,33 +104,39 @@ export default function PreviewPage() {
     if (raw) {
       try {
         setSiteSpec(JSON.parse(raw));
-      } catch (e) {
+      } catch {
         setSiteSpec(null);
       }
     }
   }, []);
 
   const themeVars = useMemo(() => {
-    const t = siteSpec?.theme;
-    if (!t) return {};
+    if (!siteSpec?.theme) return {};
     return {
-      "--c-primary": t.primaryColor,
-      "--c-secondary": t.secondaryColor,
-      "--c-bg": t.backgroundColor,
-      "--c-text": t.textColor,
-      "--c-accent": t.accentColor,
+      "--c-primary": siteSpec.theme.primaryColor,
+      "--c-secondary": siteSpec.theme.secondaryColor,
+      "--c-bg": siteSpec.theme.backgroundColor,
+      "--c-text": siteSpec.theme.textColor,
+      "--c-accent": siteSpec.theme.accentColor,
     };
   }, [siteSpec]);
 
   if (!siteSpec) {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-800 flex items-center justify-center p-6">
-        <div className="max-w-lg w-full bg-white border rounded-xl p-6 shadow-sm">
-          <h1 className="text-lg font-semibold">No hay site_spec para previsualizar</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Ve a <code className="bg-gray-100 px-1 rounded">/internal/new-client</code>,
-            genera un <code className="bg-gray-100 px-1 rounded">site_spec</code> y vuelve aquí.
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center px-6">
+        <div className="bg-white border rounded-xl p-6 max-w-md text-center shadow-sm">
+          <h1 className="text-lg font-semibold mb-2">
+            No hay site_spec cargado
+          </h1>
+          <p className="text-sm text-gray-600">
+            Genera un site_spec desde el panel interno y vuelve aquí.
           </p>
+          <a
+            href="/internal/new-client"
+            className="inline-block mt-4 text-sm underline text-blue-900"
+          >
+            Ir al panel interno
+          </a>
         </div>
       </div>
     );
@@ -115,8 +145,11 @@ export default function PreviewPage() {
   return (
     <>
       <Head>
-        <title>{siteSpec?.meta?.title || "Preview"}</title>
-        <meta name="description" content={siteSpec?.meta?.description || ""} />
+        <title>{siteSpec.meta?.title || "Vista previa"}</title>
+        <meta
+          name="description"
+          content={siteSpec.meta?.description || ""}
+        />
         <link rel="icon" type="image/png" href="/logo.png" />
       </Head>
 
@@ -128,18 +161,23 @@ export default function PreviewPage() {
           ...themeVars,
         }}
       >
-        <header className="border-b bg-white/80 backdrop-blur">
-          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* HEADER */}
+        <header className="border-b bg-white/90 backdrop-blur">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold"
                 style={{ backgroundColor: "var(--c-primary)" }}
               >
-                {siteSpec?.meta?.title?.[0] || "W"}
+                {siteSpec.meta?.title?.charAt(0) || "W"}
               </div>
-              <div className="leading-tight">
-                <div className="text-sm font-semibold">{siteSpec?.meta?.title}</div>
-                <div className="text-xs text-gray-500">Vista previa desde site_spec</div>
+              <div>
+                <div className="text-sm font-semibold">
+                  {siteSpec.meta?.title}
+                </div>
+                <div className="text-xs text-gray-500">
+                  Vista previa generada automáticamente
+                </div>
               </div>
             </div>
             <a
@@ -152,13 +190,14 @@ export default function PreviewPage() {
           </div>
         </header>
 
+        {/* MAIN */}
         <main className="max-w-6xl mx-auto px-6 py-10">
           {/* HERO */}
-          <section className="rounded-2xl border bg-white shadow-sm p-8">
+          <section className="p-8 border rounded-2xl bg-white shadow-sm">
             <h1 className="text-3xl md:text-4xl font-extrabold">
               {siteSpec.hero?.headline}
             </h1>
-            <p className="mt-3 text-gray-700 max-w-2xl">
+            <p className="mt-4 text-gray-700 max-w-2xl">
               {siteSpec.hero?.subheadline}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -172,7 +211,10 @@ export default function PreviewPage() {
               <a
                 href="#contact"
                 className="px-5 py-3 rounded-md border font-semibold"
-                style={{ borderColor: "var(--c-primary)", color: "var(--c-primary)" }}
+                style={{
+                  borderColor: "var(--c-primary)",
+                  color: "var(--c-primary)",
+                }}
               >
                 {siteSpec.hero?.secondary_cta_label || "Contacto"}
               </a>
@@ -180,23 +222,31 @@ export default function PreviewPage() {
           </section>
 
           {/* SECTIONS */}
-          {(siteSpec.sections || []).map((s) => (
-            <Section key={s.id} section={s} />
+          {siteSpec.sections?.map((section) => (
+            <Section key={section.id} section={section} />
           ))}
 
-          {/* CONTACT FOOT */}
-          <section className="mt-10 p-6 rounded-2xl border bg-white shadow-sm">
-            <h3 className="font-semibold">Datos de contacto</h3>
-            <div className="mt-3 text-sm text-gray-700 space-y-1">
+          {/* CONTACT FOOTER */}
+          <section
+            id="contact"
+            className="mt-20 p-6 border rounded-2xl bg-white shadow-sm max-w-2xl"
+          >
+            <h3 className="text-lg font-semibold mb-3">
+              Datos de contacto
+            </h3>
+            <div className="space-y-1 text-sm text-gray-700">
               {siteSpec.contact?.phone && <div>📞 {siteSpec.contact.phone}</div>}
               {siteSpec.contact?.email && <div>✉️ {siteSpec.contact.email}</div>}
-              {siteSpec.contact?.address && <div>📍 {siteSpec.contact.address}</div>}
+              {siteSpec.contact?.address && (
+                <div>📍 {siteSpec.contact.address}</div>
+              )}
             </div>
           </section>
         </main>
 
-        <footer className="border-t py-6">
-          <div className="max-w-6xl mx-auto px-6 text-sm text-gray-500">
+        {/* FOOTER */}
+        <footer className="border-t py-6 mt-16">
+          <div className="max-w-6xl mx-auto px-6 text-xs text-gray-500">
             Vista previa generada automáticamente desde <code>site_spec</code>.
           </div>
         </footer>
