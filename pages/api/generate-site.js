@@ -1,48 +1,37 @@
 export default function handler(req, res) {
-  try {
-    // ✅ Responde a preflight si aparece
-    if (req.method === "OPTIONS") {
-      res.setHeader("Allow", "POST, OPTIONS");
-      return res.status(204).end();
-    }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-    if (req.method !== "POST") {
-      res.setHeader("Allow", "POST, OPTIONS");
-      return res.status(405).json({
-        error: `Method Not Allowed: ${req.method}. Use POST.`,
-      });
-    }
+  // Aceptamos dos formatos:
+  // 1) { client_brief: {...} }  (como tu panel)
+  // 2) { ...brief }             (por si lo llamamos directo)
+  const brief = req.body?.client_brief || req.body;
 
-    const { client_brief: brief } = req.body || {};
-
-    if (!brief || !brief.company || !brief.company.name) {
-      return res.status(400).json({
-        error: "Missing client_brief or client_brief.company.name",
-      });
-    }
-
-    const site_spec = {
-      slug: slugify(brief.company.name),
-      meta: buildMeta(brief),
-      theme: selectTheme(brief),
-      hero: buildHero(brief),
-      sections: buildSections(brief),
-      contact: brief.contact_info || {},
-    };
-
-    return res.status(200).json({ site_spec });
-  } catch (err) {
-    console.error("generate-site error:", err);
-    return res.status(500).json({
-      error: "Internal server error generating site_spec",
-    });
+  if (!brief?.company?.name) {
+    return res.status(400).json({ error: "Missing company.name in client_brief" });
   }
+
+  const siteSpec = {
+    slug: slugify(brief.company.name),
+    layout: selectLayout(brief),                 // 👈 NUEVO
+    meta: buildMeta(brief),
+    theme: selectTheme(brief),
+    brand: {
+      name: brief.company.name,
+      // Opcional: logo en base64 dataURL si el cliente lo sube
+      logoDataUrl: brief.brand?.logoDataUrl || null,
+    },
+    hero: buildHero(brief),
+    sections: buildSections(brief),
+    contact: brief.contact_info,
+  };
+
+  return res.status(200).json({ site_spec: siteSpec });
 }
 
 /* ---------------- HELPERS ---------------- */
 
 function slugify(text) {
-  return (text || "")
+  return text
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -51,45 +40,36 @@ function slugify(text) {
 }
 
 function buildMeta(brief) {
-  const name = capitalizeWords(brief.company.name);
-  const sector = brief.company.sector || "Empresa";
-  const businessType = brief.company.business_type || "servicios";
   return {
-    title: `${name} | ${sector}`,
-    description: `${name} ofrece ${businessType}. Información clara, contacto directo y una presencia online pensada para convertir.`,
+    title: `${titleCase(brief.company.name)} | ${titleCase(brief.company.sector || "Empresa")}`,
+    description: `${titleCase(brief.company.name)} · Información clara, contacto directo y una presencia online pensada para convertir.`,
   };
+}
+
+function selectLayout(brief) {
+  const goal = (brief.website_goal || "").toLowerCase();
+  const sector = (brief.company?.sector || "").toLowerCase();
+  const type = (brief.company?.business_type || "").toLowerCase();
+
+  if (goal.includes("e-commerce") || goal.includes("vender online")) return "ecommerceRetail";
+  if (sector.includes("hostel") || sector.includes("restaur") || sector.includes("bar")) return "premiumBrand"; // lo cambiaremos luego a hospitality
+  if (sector.includes("salud") || sector.includes("clínica") || type.includes("clínica")) return "premiumBrand"; // luego a healthcare
+  if (type.includes("instal") || type.includes("repar") || type.includes("servicio") || type.includes("taller")) return "localService";
+
+  // default premium si no sabemos
+  return "premiumBrand";
 }
 
 function selectTheme(brief) {
   const goal = (brief.website_goal || "").toLowerCase();
-  const sector = (brief.company.sector || "").toLowerCase();
-  const businessType = (brief.company.business_type || "").toLowerCase();
 
-  const isEcommerce = goal.includes("e-commerce") || goal.includes("vender online");
-  const isRetail =
-    sector.includes("comercio") ||
-    businessType.includes("tienda") ||
-    businessType.includes("retail") ||
-    businessType.includes("moda") ||
-    businessType.includes("calzado");
-
-  if (isEcommerce && isRetail) {
+  if (goal.includes("e-commerce") || goal.includes("vender online")) {
     return {
       primaryColor: "#111827",
       secondaryColor: "#F9FAFB",
       backgroundColor: "#ffffff",
       textColor: "#111827",
       accentColor: "#C2410C",
-    };
-  }
-
-  if (isEcommerce) {
-    return {
-      primaryColor: "#111827",
-      secondaryColor: "#F3F4F6",
-      backgroundColor: "#ffffff",
-      textColor: "#111827",
-      accentColor: "#2563EB",
     };
   }
 
@@ -103,46 +83,40 @@ function selectTheme(brief) {
 }
 
 function buildHero(brief) {
-  const name = capitalizeWords(brief.company.name);
   const goal = (brief.website_goal || "").toLowerCase();
-  const businessType = brief.company.business_type || "servicios";
-  const audience = brief.target_audience || "";
 
-  const isEcommerce = goal.includes("e-commerce") || goal.includes("vender online");
-
-  if (isEcommerce) {
+  if (goal.includes("e-commerce") || goal.includes("vender online")) {
     return {
-      headline: `${name}: compra online fácil y clara`,
-      subheadline:
-        audience ||
-        "Catálogo organizado, proceso sencillo y atención para ayudarte a elegir.",
+      headline: `${titleCase(brief.company.name)}: compra online fácil y clara`,
+      subheadline: brief.target_audience || "Catálogo y compra con una experiencia cómoda y directa.",
       primary_cta_label: "Ver categorías",
       secondary_cta_label: "Contactar",
     };
   }
 
   return {
-    headline: `${name} · ${capitalizeSentence(businessType)}`,
-    subheadline:
-      audience ||
-      "Información clara, confianza y un contacto directo para ayudarte rápido.",
-    primary_cta_label: "Solicitar información",
-    secondary_cta_label: "Ver servicios",
+    headline: `${titleCase(brief.company.name)} · ${titleCase(brief.company.business_type || "Servicios")}`,
+    subheadline: brief.target_audience || "Información clara, confianza y contacto directo.",
+    primary_cta_label: "Ver servicios",
+    secondary_cta_label: "Contacto",
   };
 }
 
 function buildSections(brief) {
   const sections = [];
   const goal = (brief.website_goal || "").toLowerCase();
-  const isEcommerce = goal.includes("e-commerce") || goal.includes("vender online");
-  const services = Array.isArray(brief.services) ? brief.services : [];
 
-  if (isEcommerce) {
+  // E-commerce: categorías base (si no vienen)
+  if (goal.includes("e-commerce") || goal.includes("vender online")) {
     sections.push({
       id: "categories",
       type: "cards",
       title: "Compra por categorías",
-      items: inferCategoriesFromServices(services),
+      items: [
+        { name: "Novedades", description: "Lo más reciente y destacado." },
+        { name: "Básicos", description: "Imprescindibles para el día a día." },
+        { name: "Ofertas", description: "Selección con buena relación calidad/precio." },
+      ],
     });
 
     sections.push({
@@ -157,25 +131,28 @@ function buildSections(brief) {
     });
   }
 
+  // Servicios
   sections.push({
     id: "services",
     type: "services_grid",
-    title: isEcommerce ? "Qué encontrarás" : "Servicios",
-    items: services.map((s) => ({
-      name: s,
+    title: goal.includes("e-commerce") ? "Qué encontrarás" : "Servicios",
+    items: (brief.services || []).map((s) => ({
+      name: titleCase(s),
       description: `Información y opciones sobre ${s.toLowerCase()} pensadas para facilitar la decisión del cliente.`,
     })),
   });
 
+  // About
   sections.push({
     id: "about",
     type: "text",
-    title: `Sobre ${capitalizeWords(brief.company.name)}`,
-    body: buildAbout(brief),
+    title: `Sobre ${titleCase(brief.company.name)}`,
+    body: `${titleCase(brief.company.name)} ofrece ${brief.company.business_type || "servicios"} con un enfoque profesional: información clara, buena experiencia y atención directa cuando hace falta.`,
   });
 
+  // Contact
   sections.push({
-    id: "contact",
+    id: "contact_section",
     type: "contact",
     title: "Contacto",
     body: "Ponte en contacto para resolver dudas o solicitar más información.",
@@ -184,54 +161,8 @@ function buildSections(brief) {
   return sections;
 }
 
-function buildAbout(brief) {
-  const name = capitalizeWords(brief.company.name);
-  const sector = brief.company.sector ? `del sector ${brief.company.sector}` : "de su sector";
-  const location = brief.company.location ? `con base en ${brief.company.location}` : "";
-  const businessType = brief.company.business_type || "servicios";
-
-  return `${name} es una empresa ${sector}${location ? `, ${location}` : ""}. Ofrecemos ${businessType} con un enfoque profesional y cercano: información clara, buena experiencia para el cliente y atención directa cuando hace falta.`;
-}
-
-function inferCategoriesFromServices(services) {
-  const text = services.join(" ").toLowerCase();
-  const items = [];
-
-  const looksLikeShoes =
-    text.includes("calzado") ||
-    text.includes("zapato") ||
-    text.includes("zapatilla") ||
-    text.includes("bota") ||
-    text.includes("moda");
-
-  if (looksLikeShoes) {
-    items.push(
-      { name: "Hombre", description: "Modelos para diario, vestir y comodidad." },
-      { name: "Mujer", description: "Estilo y confort para cada ocasión." },
-      { name: "Infantil", description: "Opciones pensadas para su ritmo." }
-    );
-  }
-
-  if (items.length === 0) {
-    items.push(
-      { name: "Novedades", description: "Lo más reciente y destacado." },
-      { name: "Más vendidos", description: "Selección popular y recomendada." },
-      { name: "Ofertas", description: "Promociones y oportunidades puntuales." }
-    );
-  }
-
-  return items;
-}
-
-function capitalizeSentence(text) {
-  if (!text) return "";
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
-
-function capitalizeWords(text) {
-  return (text || "")
-    .split(" ")
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+function titleCase(text) {
+  const t = (text || "").toString().trim();
+  if (!t) return "";
+  return t.charAt(0).toUpperCase() + t.slice(1);
 }
