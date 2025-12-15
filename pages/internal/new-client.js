@@ -62,20 +62,37 @@ export default function NewClientPage() {
     setAiError(null);
   };
 
+  // ✅ ROBUSTO: evita el "Unexpected end of JSON input"
   const handleGenerateSiteSpec = async () => {
     if (!clientBrief) return;
+
     try {
       setAiStatus("loading");
       setAiError(null);
+
       const res = await fetch("/api/generate-site", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ client_brief: clientBrief }),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data = null;
+
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch (e) {
+        throw new Error(
+          `La API no devolvió JSON válido. Status ${res.status}. Body: ${text?.slice(0, 200) || "(vacío)"}`
+        );
+      }
+
       if (!res.ok) {
-        throw new Error(data.error || "Error al generar site_spec");
+        throw new Error(data?.error || `Error API (${res.status})`);
+      }
+
+      if (!data?.site_spec) {
+        throw new Error("La API respondió OK pero no devolvió site_spec.");
       }
 
       setSiteSpec(data.site_spec);
