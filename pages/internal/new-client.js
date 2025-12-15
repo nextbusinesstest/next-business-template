@@ -433,7 +433,9 @@ export default function NewClientPage() {
 
                   <a
                     href="/internal/preview"
-                    className="inline-block mt-3 text-xs underline text-blue-900"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center mt-3 px-4 py-2.5 bg-blue-900 text-white text-sm font-semibold rounded-md hover:bg-blue-800"
                   >
                     Abrir vista previa
                   </a>
