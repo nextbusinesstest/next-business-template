@@ -96,6 +96,7 @@ export default function NewClientPage() {
       }
 
       setSiteSpec(data.site_spec);
+      window.localStorage.setItem("nb_last_site_spec", JSON.stringify(data.site_spec));
       setAiStatus("done");
     } catch (err) {
       console.error(err);
@@ -103,6 +104,14 @@ export default function NewClientPage() {
       setAiStatus("error");
     }
   };
+
+  <a
+  href="/internal/preview"
+  className="inline-block mt-3 text-xs underline text-blue-900"
+>
+  Abrir vista previa
+</a>
+
 
   return (
     <>
