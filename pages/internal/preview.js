@@ -1,32 +1,33 @@
 import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
 
-import PremiumBrand from "../../components/layouts/PremiumBrand";
-import LocalService from "../../components/layouts/LocalService";
-import EcommerceRetail from "../../components/layouts/EcommerceRetail";
+import PacksRouter from "../../components/preview/PacksRouter";
+import { normalizeSpec } from "../../lib/normalizeSpec";
 
 export default function PreviewPage() {
   const [spec, setSpec] = useState(null);
 
   useEffect(() => {
     const raw = window.localStorage.getItem("nb_last_site_spec");
-    if (raw) {
-      try {
-        setSpec(JSON.parse(raw));
-      } catch {
-        setSpec(null);
-      }
+    if (!raw) return;
+
+    try {
+      const parsed = JSON.parse(raw);
+      setSpec(normalizeSpec(parsed));
+    } catch {
+      setSpec(null);
     }
   }, []);
 
-  const themeVars = useMemo(() => {
-    if (!spec?.theme) return {};
+  const cssVars = useMemo(() => {
+    const c = spec?.design_tokens?.colors;
+    if (!c) return {};
     return {
-      "--c-primary": spec.theme.primaryColor,
-      "--c-secondary": spec.theme.secondaryColor,
-      "--c-bg": spec.theme.backgroundColor,
-      "--c-text": spec.theme.textColor,
-      "--c-accent": spec.theme.accentColor,
+      "--c-primary": c.primary,
+      "--c-secondary": c.secondary,
+      "--c-bg": c.background,
+      "--c-text": c.text,
+      "--c-accent": c.accent,
     };
   }, [spec]);
 
@@ -49,23 +50,18 @@ export default function PreviewPage() {
     );
   }
 
-  const layout = (spec.layout || "premiumBrand").toLowerCase();
-
-  const LayoutComponent =
-    layout === "localservice"
-      ? LocalService
-      : layout === "ecommerceretail"
-      ? EcommerceRetail
-      : PremiumBrand;
+  const title = spec?.meta?.title || "Preview";
+  const favicon = spec?.brand?.logoDataUrl ? spec.brand.logoDataUrl : "/logo.png";
 
   return (
     <>
       <Head>
-        <link rel="icon" type="image/png" href={spec.brand?.logoDataUrl ? spec.brand.logoDataUrl : "/logo.png"} />
+        <title>{title} · Preview</title>
+        <link rel="icon" type="image/png" href={favicon} />
       </Head>
 
-      <div style={{ ...themeVars }}>
-        <LayoutComponent spec={spec} />
+      <div style={cssVars} className="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)]">
+        <PacksRouter spec={spec} />
       </div>
     </>
   );
