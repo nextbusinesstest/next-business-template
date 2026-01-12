@@ -15,24 +15,24 @@ export default function PreviewPage() {
   if (!raw) return;
 
   try {
-    let parsed = JSON.parse(raw);
+  let parsed = JSON.parse(raw);
 
-    // Si viene en v1 (o sin version), lo pasamos a v2
-    if (!parsed?.version || parsed.version === "v1") {
-      parsed = v1ToV2(parsed);
-    }
-
-    // Normalizamos a contrato v2 estable
-    const normalized = normalizeV2(parsed);
-    let normalized = normalizeV2(parsed);
-    normalized = resolveV2Layout(normalized);
-    setSpec(normalized);
-
-    setSpec(normalized);
-  } catch (e) {
-    console.error("Error loading site_spec:", e);
-    setSpec(null);
+  // Si viene en v1 (o sin version), lo pasamos a v2
+  if (!parsed?.version || parsed.version === "v1") {
+    parsed = v1ToV2(parsed);
   }
+
+  // Normalizamos a contrato v2 estable
+  let normalized = normalizeV2(parsed);
+
+  // Resolver variantes/layout (inyecta hero, elige header, etc.)
+  normalized = resolveV2Layout(normalized);
+
+  setSpec(normalized);
+} catch (e) {
+  console.error("Error loading site_spec:", e);
+  setSpec(null);
+}
 }, []);
 
   const cssVars = useMemo(() => {
