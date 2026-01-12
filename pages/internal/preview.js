@@ -5,6 +5,7 @@ import PacksRouter from "../../components/preview/PacksRouter";
 
 import { v1ToV2 } from "../../lib/spec/adapters/v1_to_v2";
 import { normalizeV2 } from "../../lib/spec/v2/normalize";
+import { resolveV2Layout } from "../../lib/spec/v2/resolveLayout";
 
 export default function PreviewPage() {
   const [spec, setSpec] = useState(null);
@@ -23,6 +24,9 @@ export default function PreviewPage() {
 
     // Normalizamos a contrato v2 estable
     const normalized = normalizeV2(parsed);
+    let normalized = normalizeV2(parsed);
+    normalized = resolveV2Layout(normalized);
+    setSpec(normalized);
 
     setSpec(normalized);
   } catch (e) {
