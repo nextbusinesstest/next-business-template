@@ -2,34 +2,57 @@ import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
 
 import PacksRouter from "../../components/preview/PacksRouter";
-import { normalizeSpec } from "../../lib/normalizeSpec";
+
+import { v1ToV2 } from "../../lib/spec/adapters/v1_to_v2";
+import { normalizeV2 } from "../../lib/spec/v2/normalize";
 
 export default function PreviewPage() {
   const [spec, setSpec] = useState(null);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem("nb_last_site_spec");
-    if (!raw) return;
+  const raw = window.localStorage.getItem("nb_last_site_spec");
+  if (!raw) return;
 
-    try {
-      const parsed = JSON.parse(raw);
-      setSpec(normalizeSpec(parsed));
-    } catch {
-      setSpec(null);
+  try {
+    let parsed = JSON.parse(raw);
+
+    // Si viene en v1 (o sin version), lo pasamos a v2
+    if (!parsed?.version || parsed.version === "v1") {
+      parsed = v1ToV2(parsed);
     }
-  }, []);
+
+    // Normalizamos a contrato v2 estable
+    const normalized = normalizeV2(parsed);
+
+    setSpec(normalized);
+  } catch (e) {
+    console.error("Error loading site_spec:", e);
+    setSpec(null);
+  }
+}, []);
 
   const cssVars = useMemo(() => {
-    const c = spec?.design_tokens?.colors;
-    if (!c) return {};
-    return {
-      "--c-primary": c.primary,
-      "--c-secondary": c.secondary,
-      "--c-bg": c.background,
-      "--c-text": c.text,
-      "--c-accent": c.accent,
-    };
-  }, [spec]);
+  // V2: brand.design_tokens.colors
+  const v2c = spec?.brand?.design_tokens?.colors;
+  // Compatibilidad por si algo llega raro
+  const c = v2c || spec?.design_tokens?.colors || null;
+  if (!c) return {};
+
+  // Acepta tanto {primary, secondary, ...} como {primaryColor, ...}
+  const primary = c.primary ?? c.primaryColor;
+  const secondary = c.secondary ?? c.secondaryColor;
+  const bg = c.background ?? c.backgroundColor;
+  const text = c.text ?? c.textColor;
+  const accent = c.accent ?? c.accentColor;
+
+  return {
+    "--c-primary": primary,
+    "--c-secondary": secondary,
+    "--c-bg": bg,
+    "--c-text": text,
+    "--c-accent": accent,
+  };
+}, [spec]);
 
   if (!spec) {
     return (
@@ -50,7 +73,7 @@ export default function PreviewPage() {
     );
   }
 
-  const title = spec?.meta?.title || "Preview";
+  const title = spec?.seo?.title || spec?.meta?.title || "Preview";
   const favicon = spec?.brand?.logoDataUrl ? spec.brand.logoDataUrl : "/logo.png";
 
   return (
