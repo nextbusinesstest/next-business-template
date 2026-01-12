@@ -84,6 +84,13 @@ export default function PreviewPage() {
       </Head>
 
       <div style={cssVars} className="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)]">
+        <div className="fixed bottom-4 right-4 z-50 w-[520px] max-h-[70vh] overflow-auto rounded-xl border bg-white/90 p-3 shadow-lg">
+  <div className="text-xs font-semibold mb-2">DEBUG · site_spec</div>
+  <pre className="text-[10px] leading-4 whitespace-pre-wrap break-words">
+    {JSON.stringify(spec, null, 2)}
+  </pre>
+</div>
+
         <PacksRouter spec={spec} />
       </div>
     </>
