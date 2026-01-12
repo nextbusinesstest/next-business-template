@@ -1,22 +1,27 @@
-import PremiumBrand from "../layouts/PremiumBrand";
-import LocalService from "../layouts/LocalService";
-import EcommerceRetail from "../layouts/EcommerceRetail";
-
-import LocalServiceTrustPack from "./packs/LocalServiceTrustPack";
-import EcommerceRetailConversionPack from "./packs/EcommerceRetailConversionPack";
-import BrandPremiumPack from "./packs/BrandPremiumPack";
+import EcommercePack from "./packs/ecommerceRetailConversion"; // o como se llame
+import LocalServicePack from "./packs/localServiceTrust";      // o como se llame
+import BrandPremiumPack from "./packs/brandPremium";           // default
 
 export default function PacksRouter({ spec }) {
-  const pack = (spec?.layout_pack || "brand_premium").toLowerCase();
+  // V1: spec.layout es string
+  // V2: spec.layout es objeto y el pack está en spec.layout.pack
+  const packKey =
+    typeof spec.layout === "string" ? spec.layout : spec.layout?.pack;
 
-  if (pack === "local_service_trust") {
-    return <LocalServiceTrustPack spec={spec} fallback={<LocalService spec={spec} />} />;
+  // Map de compatibilidad
+  const normalizedPackKey =
+    packKey === "ecommerceRetail" ? "ecommerce_conversion" :
+    packKey === "localService" ? "local_service_trust" :
+    packKey;
+
+  switch (normalizedPackKey) {
+    case "ecommerce_conversion":
+      return <EcommercePack spec={spec} />;
+    case "local_service_trust":
+      return <LocalServicePack spec={spec} />;
+    case "brand_premium":
+      return <BrandPremiumPack spec={spec} />;
+    default:
+      return <BrandPremiumPack spec={spec} />;
   }
-
-  if (pack === "ecommerce_retail_conversion") {
-    return <EcommerceRetailConversionPack spec={spec} fallback={<EcommerceRetail spec={spec} />} />;
-  }
-
-  // default premium
-  return <BrandPremiumPack spec={spec} fallback={<PremiumBrand spec={spec} />} />;
 }
